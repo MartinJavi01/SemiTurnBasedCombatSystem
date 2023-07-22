@@ -21,20 +21,23 @@ public class WarriorMovementLogic
         currentAxis = 0;
     }
 
-    public void checkMovement() {
-        currentAxis = Input.GetAxisRaw("Horizontal");
-
-        if(currentAxis != 0) {
-            rb.velocity = new Vector2(moveSpeed * currentAxis, rb.velocity.y);
-            sr.transform.localScale = (currentAxis > 0) ? new Vector3(1, 1, 1) : new Vector3(-1, 1, 1);
+    public void checkMovement(PlayerState playerState) {
+        if(playerState == PlayerState.ATTACKING) {
+            rb.velocity = Vector2.zero;
         } else {
-            rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0, 0.7f), rb.velocity.y);
+            currentAxis = Input.GetAxisRaw("Horizontal");
+            if(currentAxis != 0) {
+                rb.velocity = new Vector2(moveSpeed * currentAxis, rb.velocity.y);
+                sr.transform.localScale = (currentAxis > 0) ? new Vector3(1, 1, 1) : new Vector3(-1, 1, 1);
+            } else {
+                rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0, 0.7f), rb.velocity.y);
+            }
         }
     }
 
-    public void checkJump() {
+    public void checkJump(PlayerState playerState) {
         grounded = Physics2D.OverlapCircle(groundDetector.transform.position, 0.1f, groundLayer);
-        if(Input.GetKey(KeyCode.Space)) {
+        if(Input.GetKey(KeyCode.Space) && playerState != PlayerState.ATTACKING && playerState != PlayerState.COMBAT) {
             if(grounded) {
                 jumpTimer = jumpTime;
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
