@@ -4,3 +4,4 @@ A semi turn-based combat system I have come up with, all assets used in this pro
 The library file won't be uploaded because of its size, the packages used in this project are:
 
   -SuperTiled2Unity
+  -Visual Studio Code Editor
