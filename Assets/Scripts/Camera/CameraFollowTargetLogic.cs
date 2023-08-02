@@ -13,7 +13,7 @@ public class CameraFollowTargetLogic : MonoBehaviour
 
     private void Awake() {
         target = GameObject.FindGameObjectWithTag(targetTag);
-        heightDiff = 1;
+        heightDiff = 3;
     }
 
     private void Update() {
